@@ -1,6 +1,5 @@
 package br.edu.ifpb.pod.middleware.publica.noticia;
 
-import br.edu.ifpb.pod.pubnoticia.entidades.Noticia;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,10 +12,7 @@ import javax.xml.bind.JAXBException;
  * @author DouglasGabriel
  */
 public class Middleware {
-
-    public static String publicar (Noticia noticia){
-        
-    }
+    
     /**
      * 
      * @param noticiaXml
