@@ -20,11 +20,10 @@ public class Middleware {
     /**
      * 
      * @param noticiaXml
-     * @return em caso de sucesso, retorna a diretiva "SUCESSO", caso o servidor n consiga  
+     * @return em caso de sucesso, retorna a diretiva "SUCESSO", caso o servidor consiga  
      * @throws IOException
-     * @throws JAXBException 
      */
-    public static String publicar(String noticiaXml) throws IOException, JAXBException{
+    public static String publicar(String noticiaXml) throws IOException{
         Socket socket=new Socket("localhost", 12345);
         BufferedReader in=new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String diretiva=in.readLine();
