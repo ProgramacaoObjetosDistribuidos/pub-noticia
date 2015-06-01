@@ -16,7 +16,9 @@ public class Middleware {
     /**
      * 
      * @param noticiaXml
-     * @return em caso de sucesso, retorna a diretiva "SUCESSO", caso o servidor n consiga  
+     * @return em caso de sucesso retorna a diretiva "SUCESSO", caso o servidor não reconheça
+     * o formato do XML, retornará a diretiva "ERRO" e caso haja problema na conexão, retornará
+     * null.
      * @throws IOException
      * @throws JAXBException 
      */
