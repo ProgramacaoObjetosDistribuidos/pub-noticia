@@ -1,8 +1,7 @@
 package br.edu.ifpb.pod.app2.sockets;
 
-import br.edu.ifpb.pod.pubnoticia.entidades.Noticia;
-import br.edu.ifpb.pod.pubnoticia.entidades.UsuarioPublicador;
 import br.edu.ifpb.pod.pubnoticia.conversor.ConversorXML;
+import edu.ifpb.pod.pubnoticia.core.entidades.Noticia;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +33,7 @@ public class ServidorPublicacao {
         private Socket socket;
         private InputStream in;
         private PrintWriter out;
-        private Noticia noticia;
-        private UsuarioPublicador usuario;
+        private Noticia noticia;        
 
         public Publicador(Socket socket) {
             this.socket = socket;

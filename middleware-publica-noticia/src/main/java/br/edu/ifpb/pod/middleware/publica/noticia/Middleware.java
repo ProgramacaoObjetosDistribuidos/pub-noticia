@@ -1,6 +1,5 @@
 package br.edu.ifpb.pod.middleware.publica.noticia;
 
-import br.edu.ifpb.pod.pubnoticia.entidades.Noticia;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,14 +12,17 @@ import javax.xml.bind.JAXBException;
  * @author DouglasGabriel
  */
 public class Middleware {
-
-    public static String publicar (Noticia noticia){
-        
-    }
+    
     /**
      * 
      * @param noticiaXml
+<<<<<<< HEAD
      * @return em caso de sucesso, retorna a diretiva "SUCESSO", caso o servidor consiga  
+=======
+     * @return em caso de sucesso retorna a diretiva "SUCESSO", caso o servidor não reconheça
+     * o formato do XML, retornará a diretiva "ERRO" e caso haja problema na conexão, retornará
+     * null.
+>>>>>>> f288d3066b8ef395ecf5abe2f97288aea11d58a6
      * @throws IOException
      */
     public static String publicar(String noticiaXml) throws IOException{

@@ -10,6 +10,7 @@
         <module>middleware-publica-noticia</module>
         <module>pod-xml-object-converter</module>
         <module>pubnoticia-conversor</module>
+        <module>pubnoticia-core</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
