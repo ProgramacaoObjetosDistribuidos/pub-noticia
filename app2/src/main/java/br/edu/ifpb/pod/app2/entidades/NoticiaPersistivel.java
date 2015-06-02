@@ -20,15 +20,28 @@ public class NoticiaPersistivel implements Serializable {
     @Id
     private long id;
     private String autores, resumo;
+    private boolean publicada;
     @Lob
     private String conteudo;
     @Lob
     private byte[] imagem;
 
+    public NoticiaPersistivel(){
+        publicada = false;
+    }
+    
     public long getId() {
         return id;
     }
 
+    public boolean isPublicada() {
+        return publicada;
+    }
+
+    public void setPublicada(boolean publicada) {
+        this.publicada = publicada;
+    }
+    
     public void setId(long id) {
         this.id = id;
     }

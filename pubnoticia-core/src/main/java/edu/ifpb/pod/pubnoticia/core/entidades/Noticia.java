@@ -7,7 +7,7 @@ package edu.ifpb.pod.pubnoticia.core.entidades;
 public class Noticia {
 
     private long id;
-    private String autores, resumo, descricao;
+    private String autores, resumo, conteudo;
     private byte[] imagem;
 
     public long getId() {
@@ -34,12 +34,12 @@ public class Noticia {
         this.resumo = resumo;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getConteudo() {
+        return conteudo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
     }
 
     public byte[] getImagem() {

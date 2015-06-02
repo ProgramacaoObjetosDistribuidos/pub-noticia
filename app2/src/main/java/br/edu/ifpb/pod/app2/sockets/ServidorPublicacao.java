@@ -1,5 +1,8 @@
 package br.edu.ifpb.pod.app2.sockets;
 
+import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
+import br.edu.ifpb.pod.app2.persistencia.DAO;
+import br.edu.ifpb.pod.app2.sistema.ConverteNoticias;
 import br.edu.ifpb.pod.pubnoticia.conversor.ConversorXML;
 import edu.ifpb.pod.pubnoticia.core.entidades.Noticia;
 import java.io.ByteArrayOutputStream;
@@ -33,7 +36,8 @@ public class ServidorPublicacao {
         private Socket socket;
         private InputStream in;
         private PrintWriter out;
-        private Noticia noticia;        
+        private Noticia noticia;
+        private DAO<NoticiaPersistivel> daoNoticia;
 
         public Publicador(Socket socket) {
             this.socket = socket;
@@ -43,23 +47,19 @@ public class ServidorPublicacao {
             try {
                 in = socket.getInputStream();
                 out = new PrintWriter(socket.getOutputStream(), true);
-                while (true) {
-                    try {
-                        out.println("SUBNOTICIA");
-                        ByteArrayOutputStream temp = new ByteArrayOutputStream();
-                        byte[] b = new byte[1];
-                        while ((in.read(b)) != -1) {
-                            temp.write(b);
-                        }
-                        noticia = (Noticia) ConversorXML.xmlParaObjeto(Noticia.class, temp.toByteArray());
-                        break;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        out.println("ERRO");
+                try {
+                    out.println("SUBNOTICIA");
+                    ByteArrayOutputStream temp = new ByteArrayOutputStream();
+                    byte[] b = new byte[1];
+                    while ((in.read(b)) != -1) {
+                        temp.write(b);
                     }
+                    noticia = (Noticia) ConversorXML.xmlParaObjeto(Noticia.class, temp.toByteArray());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    out.println("ERRO");
                 }
-                out.println("SUCESSO");                
-
+                out.println("SUCESSO");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -68,6 +68,9 @@ public class ServidorPublicacao {
                 } catch (IOException e) {
                 }
             }
+            NoticiaPersistivel noticiaPersistivel = ConverteNoticias.converterNoticiaEmNoticiaPersistivel(noticia);
+            daoNoticia.salvar(noticiaPersistivel);
+            //TODO chamar método da API de Ari para mandar notícia para o site
         }
     }
 }
