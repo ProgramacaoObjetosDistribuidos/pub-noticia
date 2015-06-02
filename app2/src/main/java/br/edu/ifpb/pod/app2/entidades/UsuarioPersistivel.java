@@ -3,6 +3,7 @@ package br.edu.ifpb.pod.app2.entidades;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -11,7 +12,7 @@ import javax.persistence.Id;
  */
 @Entity
 public class UsuarioPersistivel implements Serializable {
-    @GeneratedValue
+
     @Id
     private String email;
     private String nome;
