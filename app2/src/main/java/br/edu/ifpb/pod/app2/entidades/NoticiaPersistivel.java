@@ -9,6 +9,9 @@ import javax.persistence.Lob;
 /**
  *
  * @author DouglasGabriel
+ * 
+ * Entidade que representa a Notícia e permite a persistencia da mesma no banco
+ * de dados. Difere da outra entidade Notícia, pelo fato de possuir anotações JPA
  */
 @Entity
 public class NoticiaPersistivel implements Serializable {
