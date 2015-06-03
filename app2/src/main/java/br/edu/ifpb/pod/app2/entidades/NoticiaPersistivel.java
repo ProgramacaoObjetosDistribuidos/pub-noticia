@@ -1,5 +1,6 @@
 package br.edu.ifpb.pod.app2.entidades;
 
+import br.edu.ifpb.pod.app2.persistencia.listener.NoticiaPersistivelListener;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -15,7 +16,7 @@ import javax.persistence.Lob;
  * de dados. Difere da outra entidade Notícia, pelo fato de possuir anotações JPA
  */
 @Entity
-@EntityListeners({})
+@EntityListeners({NoticiaPersistivelListener.class})
 public class NoticiaPersistivel implements Serializable {
 
     @GeneratedValue

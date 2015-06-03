@@ -1,7 +1,7 @@
 package br.edu.ifpb.pod.app2.sockets;
 
+import br.edu.ifpb.pod.app2.dao.DAO;
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
-import br.edu.ifpb.pod.app2.persistencia.DAO;
 import br.edu.ifpb.pod.app2.sistema.ConverteNoticias;
 import br.edu.ifpb.pod.pubnoticia.conversor.ConversorXML;
 import edu.ifpb.pod.pubnoticia.core.entidades.Noticia;

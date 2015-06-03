@@ -1,9 +1,11 @@
 
 package br.edu.ifpb.pod.app2.persistencia.listener;
 
+import br.edu.ifpb.pod.app2.dao.DAO;
+import br.edu.ifpb.pod.app2.dao.DAOJPA;
 import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
-import br.edu.ifpb.pod.app2.persistencia.DAO;
-import br.edu.ifpb.pod.app2.persistencia.DAOJPA;
+
+import java.util.List;
 import javax.persistence.PostPersist;
 
 /**
@@ -21,6 +23,8 @@ public class NoticiaPersistivelListener {
     
     @PostPersist
     public void posAddNoticia(NoticiaPersistivelListener noticia){
+        List<UsuarioPersistivel> usuarioPersistiveis=dao.consultaLista("usuario.todos", null);
+        
         
     }
 }

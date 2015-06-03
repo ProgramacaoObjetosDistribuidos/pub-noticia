@@ -2,9 +2,13 @@ package br.edu.ifpb.pod.app2.entidades;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 
 /**
@@ -12,6 +16,7 @@ import javax.persistence.Transient;
  * @author DouglasGabriel
  */
 @Entity
+@NamedQueries({@NamedQuery(name = "usuario.todos",query = "SELECT u FROM UsuarioPersistivel u")})
 public class UsuarioPersistivel implements Serializable {
 
     @Id
@@ -19,6 +24,7 @@ public class UsuarioPersistivel implements Serializable {
     @Transient
     private String idSessao;
     private String nome;
+    @Basic(fetch = FetchType.LAZY)
     @ManyToMany
     private List<NoticiaPersistivel> novasNoticias;
 
