@@ -48,7 +48,7 @@ public class ServidorPublicacao {
                 in = socket.getInputStream();
                 out = new PrintWriter(socket.getOutputStream(), true);
                 try {
-                    out.println("SUBNOTICIA");
+                    out.println("GETNEWS");
                     ByteArrayOutputStream temp = new ByteArrayOutputStream();
                     byte[] b = new byte[1];
                     while ((in.read(b)) != -1) {
@@ -57,9 +57,9 @@ public class ServidorPublicacao {
                     noticia = (Noticia) ConversorXML.xmlParaObjeto(Noticia.class, temp.toByteArray());
                 } catch (Exception e) {
                     e.printStackTrace();
-                    out.println("ERRO");
+                    out.println("ERROR");
                 }
-                out.println("SUCESSO");
+                out.println("SUCCESS");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
