@@ -9,19 +9,19 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PostPersist;
 import javax.persistence.Query;
+import javax.persistence.PostPersist;
 
 /**
  *
  * @author Emanuel Batista da Silva Filho
  */
-public class NoticiaPersistivelListener {
+public class NoticiaPersistivelListener implements PersisteNoticiaListener{
 
     private final DAOJPA<UsuarioPersistivel> daoUsuario = new DAOJPA<>();
 
     public NoticiaPersistivelListener() {
     }
 
-    @PostPersist
     public void posAddNoticia(NoticiaPersistivel noticia) {
 //        List<UsuarioPersistivel> usuarioPersistiveis = daoUsuario.consultaLista("usuario.todos", null);
 //
@@ -34,4 +34,16 @@ public class NoticiaPersistivelListener {
 //            query.executeUpdate();
 //    }
     }
+
+    @Override
+    public void avisar(NoticiaPersistivel noticia) {
+        List<UsuarioPersistivel> usuarioPersistiveis = daoUsuario.consultaLista("usuario.todos", null);
+
+        for (UsuarioPersistivel usuarioPersistivel : usuarioPersistiveis) {
+            UsuarioPersistivel usuario=daoUsuario.buscar(usuarioPersistivel.getEmail(), UsuarioPersistivel.class);
+            usuario.addNovaNoticia(noticia);
+            daoUsuario.atualizar(usuario);
+        }
+    }
+
 }

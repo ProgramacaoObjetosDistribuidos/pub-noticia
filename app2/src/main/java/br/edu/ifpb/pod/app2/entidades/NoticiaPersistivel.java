@@ -16,7 +16,6 @@ import javax.persistence.Lob;
  * de dados. Difere da outra entidade Notícia, pelo fato de possuir anotações JPA
  */
 @Entity
-@EntityListeners({NoticiaPersistivelListener.class})
 public class NoticiaPersistivel implements Serializable {
 
     @GeneratedValue

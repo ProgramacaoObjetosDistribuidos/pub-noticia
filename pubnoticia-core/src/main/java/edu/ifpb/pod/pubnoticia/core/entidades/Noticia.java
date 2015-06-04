@@ -9,6 +9,15 @@ public class Noticia {
     private long id;
     private String autores, resumo, conteudo;
     private byte[] imagem;
+    private boolean lida;
+
+    public boolean isLida() {
+        return lida;
+    }
+
+    public void setLida(boolean lida) {
+        this.lida = lida;
+    }        
 
     public long getId() {
         return id;

@@ -3,13 +3,11 @@ package br.edu.ifpb.pod.app2.teste;
 import br.edu.ifpb.pod.app2.dao.DAO;
 import br.edu.ifpb.pod.app2.dao.DAOJPA;
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
 import java.util.List;
-import javax.persistence.Query;
-import org.eclipse.persistence.jpa.config.JoinTable;
+import br.edu.ifpb.pod.app2.persistencia.listener.NoticiaPersistivelListener;
+import br.edu.ifpb.pod.app2.persistencia.listener.PersisteNoticiaListener;
+
 
 /**
  *
@@ -17,7 +15,8 @@ import org.eclipse.persistence.jpa.config.JoinTable;
  */
 public class Teste {
 
-    public static void main(String[] args) throws NoSuchFieldException {        
+    public static void main(String[] args) { 
+        PersisteNoticiaListener listener = new NoticiaPersistivelListener();
         DAO<UsuarioPersistivel> dao=new DAOJPA<>();
         DAO<NoticiaPersistivel> dao1=new DAOJPA<>();
         UsuarioPersistivel usuario = new UsuarioPersistivel();
@@ -37,7 +36,8 @@ public class Teste {
         }
         
         
-    }
 
-  
+        listener.avisar(noticiaPersistivel);
+
+    }
 }
