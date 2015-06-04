@@ -3,10 +3,9 @@ package br.edu.ifpb.pod.app2.teste;
 import br.edu.ifpb.pod.app2.dao.DAO;
 import br.edu.ifpb.pod.app2.dao.DAOJPA;
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
+import br.edu.ifpb.pod.app2.persistencia.listener.NoticiaPersistivelListener;
+import br.edu.ifpb.pod.app2.persistencia.listener.PersisteNoticiaListener;
 
 /**
  *
@@ -14,7 +13,8 @@ import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
  */
 public class Teste {
 
-    public static void main(String[] args) {        
+    public static void main(String[] args) { 
+        PersisteNoticiaListener listener = new NoticiaPersistivelListener();
         DAO<UsuarioPersistivel> dao=new DAOJPA<>();
         DAO<NoticiaPersistivel> dao1=new DAOJPA<>();
         UsuarioPersistivel usuario = new UsuarioPersistivel();
@@ -25,8 +25,6 @@ public class Teste {
         noticiaPersistivel.setConteudo("LOrem llslsls");
         noticiaPersistivel.setResumo("Oiiiiiiiii");
         dao1.salvar(noticiaPersistivel);
-        
+        listener.avisar(noticiaPersistivel);
     }
-
-  
 }
