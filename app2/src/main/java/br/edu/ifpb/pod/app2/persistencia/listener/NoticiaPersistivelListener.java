@@ -5,9 +5,10 @@ import br.edu.ifpb.pod.app2.dao.DAOJPA;
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
 import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
 import java.util.List;
-import javax.persistence.PostLoad;
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
+import javax.persistence.Query;
 
 /**
  *
@@ -15,23 +16,22 @@ import javax.persistence.PostUpdate;
  */
 public class NoticiaPersistivelListener {
 
-    private final DAO<UsuarioPersistivel> daoUsuario = new DAOJPA<>();
-    private final DAO<NoticiaPersistivel> daoNoticia = new DAOJPA<>();
+    private final DAOJPA<UsuarioPersistivel> daoUsuario = new DAOJPA<>();
 
     public NoticiaPersistivelListener() {
-//        this.dao = ;
     }
 
     @PostPersist
     public void posAddNoticia(NoticiaPersistivel noticia) {
-        List<UsuarioPersistivel> usuarioPersistiveis = daoUsuario.consultaLista("usuario.todos", null);
-
-        for (UsuarioPersistivel usuarioPersistivel : usuarioPersistiveis) {
-            UsuarioPersistivel usuario=daoUsuario.buscar(usuarioPersistivel.getEmail(), UsuarioPersistivel.class);
-            usuario.addNovaNoticia(noticia);
-            daoUsuario.atualizar(usuario);
-        }
-
+//        List<UsuarioPersistivel> usuarioPersistiveis = daoUsuario.consultaLista("usuario.todos", null);
+//
+//        for (UsuarioPersistivel usuarioPersistivel : usuarioPersistiveis) {
+//            EntityManager entityManager=daoUsuario.getEntityManager();
+//            Query query=entityManager.createNativeQuery("INSERT INTO noticia_usuario(notiviapersistivel_email,novasnoticias_id)"
+//                    + "VALUES(:email_usuario , :id_noticia)");
+//            query.setParameter("email_usuario", usuarioPersistivel.getEmail());
+//            query.setParameter("id_noticia", noticia.getId());
+//            query.executeUpdate();
+//    }
     }
-
 }

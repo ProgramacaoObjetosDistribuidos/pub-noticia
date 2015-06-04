@@ -3,11 +3,11 @@ package br.edu.ifpb.pod.app2.entidades;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,12 +26,11 @@ public class UsuarioPersistivel implements Serializable {
     @Transient
     private String idSessao;
     private String nome;
-//    @Basic(fetch = FetchType.LAZY)
+    @JoinTable(name = "noticia_usuario")
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<NoticiaPersistivel> novasNoticias;
 
     public UsuarioPersistivel() {
-//        this.novasNoticias=new ArrayList<>();
     }
     
     
@@ -70,6 +69,9 @@ public class UsuarioPersistivel implements Serializable {
     }
         
     public void addNovaNoticia (NoticiaPersistivel noticia){
+        if(this.novasNoticias==null){
+            this.novasNoticias=new ArrayList<>();
+        }
         novasNoticias.add(noticia);
     }
     

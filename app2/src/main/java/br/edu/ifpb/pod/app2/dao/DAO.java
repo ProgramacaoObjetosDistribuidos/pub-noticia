@@ -27,4 +27,5 @@ public interface DAO<T> {
     
     public T consultaSimples(String nomeConsulta,Map<String,Object> parametros);
     
+    
 }
