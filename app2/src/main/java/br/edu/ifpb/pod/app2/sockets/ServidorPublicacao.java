@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -56,12 +57,13 @@ public class ServidorPublicacao {
                         temp.write(b);
                     }
                     noticia = (Noticia) ConversorXML.xmlParaObjeto(Noticia.class, temp.toByteArray());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (IOException | JAXBException e) {
                     out.println("ERROR");
+                    e.printStackTrace();
+                    new Exception(e);
                 }
                 out.println("SUCCESS");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
