@@ -16,7 +16,7 @@ public class DAOJPA<T> implements DAO<T> {
     protected EntityManager entityManager;
 
     public DAOJPA() {
-        this("br.edu.ifpb.pod_pubnoticia-app2");
+        this("br.edu.ifpb.pod_pubnoticia-app2");        
     }
 
     public DAOJPA(String unidadePersistencia) {
