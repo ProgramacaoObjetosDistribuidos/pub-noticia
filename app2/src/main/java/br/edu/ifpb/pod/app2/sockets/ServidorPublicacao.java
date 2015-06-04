@@ -43,6 +43,7 @@ public class ServidorPublicacao {
             this.socket = socket;
         }
 
+        @Override
         public void run() {
             try {
                 in = socket.getInputStream();
