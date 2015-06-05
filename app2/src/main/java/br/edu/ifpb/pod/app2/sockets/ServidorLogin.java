@@ -1,11 +1,13 @@
 package br.edu.ifpb.pod.app2.sockets;
 
+import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,8 +18,13 @@ import java.util.logging.Logger;
 public class ServidorLogin {
 
     private static final int PORT = 123456;
+    private Map<String,UsuarioPersistivel> usuarios;
 
-    public static void main(String[] args) throws Exception {
+    public ServidorLogin(Map<String, UsuarioPersistivel> usuarios) {
+        this.usuarios = usuarios;
+    }
+    
+    public void inicialize() throws Exception {
         ServerSocket listener = new ServerSocket(PORT);
         try {
             while (true) {
@@ -28,7 +35,7 @@ public class ServidorLogin {
         }
     }
     
-    private static class Comunicador extends Thread{
+    private class Comunicador extends Thread{
 
         private Socket socket;
         private PrintWriter out;
