@@ -7,11 +7,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
 
 /**
  *
@@ -23,8 +21,6 @@ public class UsuarioPersistivel implements Serializable {
 
     @Id
     private String email;
-    @Transient
-    private String idSessao;
     private String nome;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<NoticiaPersistivel> novasNoticias;
@@ -50,14 +46,6 @@ public class UsuarioPersistivel implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getIdSessao() {
-        return idSessao;
-    }
-
-    public void setIdSessao(String idSessao) {
-        this.idSessao = idSessao;
     }
 
     public List<NoticiaPersistivel> getNovasNoticias() {
