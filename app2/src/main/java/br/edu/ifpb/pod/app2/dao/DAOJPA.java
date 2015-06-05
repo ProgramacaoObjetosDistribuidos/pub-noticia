@@ -1,5 +1,6 @@
 package br.edu.ifpb.pod.app2.dao;
 
+import br.edu.ifpb.pod.app2.dao.interfaces.DAO;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -11,12 +12,12 @@ import javax.persistence.Query;
  * @author job
  * @param <T>
  */
-public class DAOJPA<T> implements DAO<T> {
+class DAOJPA<T> implements DAO<T> {
 
     protected EntityManager entityManager;
 
     public DAOJPA() {
-        this("br.edu.ifpb.pod_pubnoticia-app2");        
+        this("br.edu.ifpb.pod_pubnoticia-app2");
     }
 
     public DAOJPA(String unidadePersistencia) {
@@ -106,7 +107,22 @@ public class DAOJPA<T> implements DAO<T> {
     public EntityManager getEntityManager() {
         return entityManager;
     }
-    
-    
+
+    @Override
+    public boolean resgatar(T obj) {
+        EntityTransaction transacao = entityManager.getTransaction();
+
+        try {
+            transacao.begin();
+            entityManager.refresh(obj);
+            transacao.commit();
+            return true;
+        } catch (Exception ex) {
+            if (transacao.isActive()) {
+                transacao.rollback();
+            }
+            return false;
+        }
+    }
 
 }

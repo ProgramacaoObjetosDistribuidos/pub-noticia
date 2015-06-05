@@ -5,7 +5,6 @@
  */
 package br.edu.ifpb.pod.app2.dao.interfaces;
 
-import br.edu.ifpb.pod.app2.dao.DAO;
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
 
 /**

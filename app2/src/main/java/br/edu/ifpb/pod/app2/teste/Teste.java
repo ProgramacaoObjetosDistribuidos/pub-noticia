@@ -1,7 +1,10 @@
 package br.edu.ifpb.pod.app2.teste;
 
-import br.edu.ifpb.pod.app2.dao.DAO;
-import br.edu.ifpb.pod.app2.dao.DAOJPA;
+import br.edu.ifpb.pod.app2.dao.interfaces.DAO;
+import br.edu.ifpb.pod.app2.dao.NoticiaPersistivelDAO;
+import br.edu.ifpb.pod.app2.dao.UsuarioPersistivelDAO;
+import br.edu.ifpb.pod.app2.dao.interfaces.NoticiaPersistiveDAOlIF;
+import br.edu.ifpb.pod.app2.dao.interfaces.UsuarioPersistivelDAOIF;
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
 import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
 import java.util.List;
@@ -17,8 +20,8 @@ public class Teste {
 
     public static void main(String[] args) { 
         PersisteNoticiaListener listener = new NoticiaPersistivelListener();
-        DAO<UsuarioPersistivel> dao=new DAOJPA<>();
-        DAO<NoticiaPersistivel> dao1=new DAOJPA<>();
+        UsuarioPersistivelDAOIF dao=new UsuarioPersistivelDAO();
+        NoticiaPersistiveDAOlIF dao1=new NoticiaPersistivelDAO();
         UsuarioPersistivel usuario = new UsuarioPersistivel();
         usuario.setNome("Douglas");
         usuario.setEmail("douglas@mail.com");
@@ -27,17 +30,9 @@ public class Teste {
         noticiaPersistivel.setConteudo("LOrem llslsls");
         noticiaPersistivel.setResumo("Oiiiiiiiii");
         dao1.salvar(noticiaPersistivel);
-        System.out.println(noticiaPersistivel.getId());
-         List<UsuarioPersistivel> usuarioPersistiveis = dao.consultaLista("usuario.todos", null);
-
-        for (UsuarioPersistivel usuarioPersistivel : usuarioPersistiveis) {
-            usuarioPersistivel.addNovaNoticia(noticiaPersistivel);
-            dao.atualizar(usuarioPersistivel);
-        }
+        Teste2 teste2=new Teste2();
+        teste2.teste();
         
-        
-
-        listener.avisar(noticiaPersistivel);
 
     }
 }

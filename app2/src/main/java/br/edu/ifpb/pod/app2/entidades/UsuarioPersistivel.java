@@ -26,11 +26,11 @@ public class UsuarioPersistivel implements Serializable {
     @Transient
     private String idSessao;
     private String nome;
-    @JoinTable(name = "noticia_usuario")
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<NoticiaPersistivel> novasNoticias;
 
     public UsuarioPersistivel() {
+        this.novasNoticias=new ArrayList<>();
     }
     
     

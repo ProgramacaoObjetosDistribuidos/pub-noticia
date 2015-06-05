@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifpb.pod.app2.dao;
+package br.edu.ifpb.pod.app2.dao.interfaces;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,8 @@ public interface DAO<T> {
     public boolean salvar(T obj);
     
     public boolean atualizar(T obj);
+    
+    public boolean resgatar(T obj);
     
     public boolean excluir(T obj);
     
