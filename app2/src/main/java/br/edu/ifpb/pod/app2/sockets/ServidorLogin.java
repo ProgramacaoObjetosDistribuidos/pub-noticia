@@ -54,7 +54,7 @@ public class ServidorLogin {
                 in=socket.getInputStream();
                 mensagem=gerarString();
                 //Logica do token
-                
+                //Retorno o ID
                 
                 
             } catch (IOException ex) {
