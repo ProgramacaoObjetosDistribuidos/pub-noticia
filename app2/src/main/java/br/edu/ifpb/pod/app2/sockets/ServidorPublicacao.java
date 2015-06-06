@@ -48,6 +48,7 @@ public class ServidorPublicacao {
         @Override
         public void run() {
             try {
+                System.out.println("Entrou");
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 try {
