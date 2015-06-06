@@ -11,7 +11,7 @@ public class ConverteNoticias {
  
     public static NoticiaPersistivel converterNoticiaEmNoticiaPersistivel (Noticia noticia){
         NoticiaPersistivel noticiaPersistivel = new NoticiaPersistivel();
-        noticiaPersistivel.setAutores(noticia.getAutores());
+        noticiaPersistivel.setAutores(noticia.getAutor());
         noticiaPersistivel.setConteudo(noticia.getConteudo());
         noticiaPersistivel.setImagem(noticia.getImagem());
         noticiaPersistivel.setResumo(noticia.getResumo());

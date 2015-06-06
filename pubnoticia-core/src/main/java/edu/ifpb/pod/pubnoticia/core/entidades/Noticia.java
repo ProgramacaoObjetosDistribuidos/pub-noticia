@@ -1,13 +1,15 @@
 package edu.ifpb.pod.pubnoticia.core.entidades;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author DouglasGabriel
  */
+@XmlRootElement
 public class Noticia {
-
     private long id;
-    private String autores, resumo, conteudo;
+    private String autor, resumo, conteudo;
     private byte[] imagem;
     private boolean lida;
 
@@ -27,12 +29,12 @@ public class Noticia {
         this.id = id;
     }
 
-    public String getAutores() {
-        return autores;
+    public String getAutor() {
+        return autor;
     }
 
-    public void setAutores(String autores) {
-        this.autores = autores;
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
     public String getResumo() {

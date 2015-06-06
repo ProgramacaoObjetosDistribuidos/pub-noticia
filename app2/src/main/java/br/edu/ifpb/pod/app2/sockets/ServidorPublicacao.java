@@ -1,17 +1,17 @@
 package br.edu.ifpb.pod.app2.sockets;
 
-import br.edu.ifpb.pod.app2.dao.interfaces.DAO;
+import br.edu.ifpb.pod.app2.dao.NoticiaPersistivelDAO;
+import br.edu.ifpb.pod.app2.dao.interfaces.NoticiaPersistiveDAOlIF;
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
 import br.edu.ifpb.pod.app2.sistema.ConverteNoticias;
 import br.edu.ifpb.pod.pubnoticia.conversor.ConversorXML;
 import edu.ifpb.pod.pubnoticia.core.entidades.Noticia;
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -19,7 +19,7 @@ import javax.xml.bind.JAXBException;
  */
 public class ServidorPublicacao {
 
-    private static final int PORT = 123456;
+    private static final int PORT = 12345;
 
     public static void main(String[] args) throws Exception {
         ServerSocket listener = new ServerSocket(PORT);
@@ -35,34 +35,32 @@ public class ServidorPublicacao {
     private static class Publicador extends Thread {
 
         private Socket socket;
-        private InputStream in;
+        private BufferedReader in;
         private PrintWriter out;
         private Noticia noticia;
-        private DAO<NoticiaPersistivel> daoNoticia;
+        private NoticiaPersistiveDAOlIF daoNoticia;
 
         public Publicador(Socket socket) {
             this.socket = socket;
+            this.daoNoticia=new NoticiaPersistivelDAO();
         }
 
         @Override
         public void run() {
             try {
-                in = socket.getInputStream();
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 try {
                     out.println("GETNEWS");
-                    ByteArrayOutputStream temp = new ByteArrayOutputStream();
-                    byte[] b = new byte[1];
-                    while ((in.read(b)) != -1) {
-                        temp.write(b);
-                    }
-                    noticia = (Noticia) ConversorXML.xmlParaObjeto(Noticia.class, temp.toByteArray());
-                } catch (IOException | JAXBException e) {
+                    noticia = (Noticia) ConversorXML.xmlParaObjeto(Noticia.class, in.readLine().getBytes());
+                } catch (Exception e) {
                     out.println("ERROR");
+                    out.flush();
                     e.printStackTrace();
-                    new Exception(e);
+                    throw new Exception(e);
                 }
                 out.println("SUCCESS");
+                out.flush();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -71,8 +69,11 @@ public class ServidorPublicacao {
                 } catch (IOException e) {
                 }
             }
-            NoticiaPersistivel noticiaPersistivel = ConverteNoticias.converterNoticiaEmNoticiaPersistivel(noticia);
-            daoNoticia.salvar(noticiaPersistivel);
+//            System.out.println(noticia.getConteudo());
+//            NoticiaPersistivel noticiaPersistivel = ConverteNoticias.converterNoticiaEmNoticiaPersistivel(noticia);
+//            System.out.println(noticiaPersistivel.getConteudo());
+//            daoNoticia.salvar(noticiaPersistivel);
+//            System.out.println(noticiaPersistivel.getConteudo());
             //TODO chamar método da API de Ari para mandar notícia para o site
         }
     }
