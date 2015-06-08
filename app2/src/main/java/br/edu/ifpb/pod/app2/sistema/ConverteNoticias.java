@@ -1,7 +1,7 @@
 package br.edu.ifpb.pod.app2.sistema;
 
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
-import edu.ifpb.pod.pubnoticia.core.entidades.Noticia;
+import br.edu.ifpb.pod.app2.core.entidades.Noticia;
 
 /**
  *

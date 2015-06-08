@@ -4,8 +4,8 @@ import br.edu.ifpb.pod.app2.dao.NoticiaPersistivelDAO;
 import br.edu.ifpb.pod.app2.dao.interfaces.NoticiaPersistiveDAOlIF;
 import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
 import br.edu.ifpb.pod.app2.sistema.ConverteNoticias;
-import br.edu.ifpb.pod.pubnoticia.conversor.ConversorXML;
-import edu.ifpb.pod.pubnoticia.core.entidades.Noticia;
+import br.edu.ifpb.pod.app2.conversor.ConversorXML;
+import br.edu.ifpb.pod.app2.core.entidades.Noticia;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,6 +22,7 @@ public class ServidorPublicacao {
     private static final int PORT = 12345;
 
     public static void main(String[] args) throws Exception {
+        System.out.println("Entrou");
         ServerSocket listener = new ServerSocket(PORT);
         try {
             while (true) {
@@ -48,7 +49,7 @@ public class ServidorPublicacao {
         @Override
         public void run() {
             try {
-                System.out.println("Entrou");
+                
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 try {
