@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class ServidorLogin {
 
-    private static final int PORT = 123456;
+    private static final int PORT = 12345;
     private Map<String,UsuarioPersistivel> usuarios;
 
     public ServidorLogin(Map<String, UsuarioPersistivel> usuarios) {

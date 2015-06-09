@@ -2,8 +2,6 @@ package br.edu.ifpb.pod.app2.sockets;
 
 import br.edu.ifpb.pod.app2.dao.NoticiaPersistivelDAO;
 import br.edu.ifpb.pod.app2.dao.interfaces.NoticiaPersistiveDAOlIF;
-import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
-import br.edu.ifpb.pod.app2.sistema.ConverteNoticias;
 import br.edu.ifpb.pod.app2.conversor.ConversorXML;
 import br.edu.ifpb.pod.app2.core.entidades.Noticia;
 import java.io.BufferedReader;
