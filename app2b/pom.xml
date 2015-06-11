@@ -14,5 +14,10 @@
             <artifactId>app2-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.ancoron.postgresql</groupId>
+            <artifactId>org.postgresql</artifactId>
+            <version>9.1.901.jdbc4.1-rc9</version>
+        </dependency>
     </dependencies>
 </project>

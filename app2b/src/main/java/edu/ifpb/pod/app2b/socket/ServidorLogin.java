@@ -5,17 +5,17 @@ import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.DAO;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import edu.ifpb.pod.app2b.pojos.LoginResponse;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 
 /**
@@ -25,7 +25,7 @@ import javax.xml.bind.JAXBException;
  */
 public class ServidorLogin {
 
-    private static final int PORT = 1234;    
+    private static final int PORT = 1234;
     private Map<String, UsuarioPersistivel> usuarios;
     private DAO<UsuarioPersistivel> daoUsuario = new UsuarioPersistivelDAO("edu.ifpb.pod_app2b");
 
@@ -48,7 +48,7 @@ public class ServidorLogin {
 
         private Socket socket;
         private PrintWriter out;
-        private InputStream in;
+        private BufferedReader in;
         private String mensagem;
 
         public Comunicador(Socket socket) {
@@ -59,8 +59,8 @@ public class ServidorLogin {
         public void run() {
             LoginResponse response = new LoginResponse();
             try {
-                out = new PrintWriter(socket.getOutputStream(), true);                
-                in = socket.getInputStream();
+                out = new PrintWriter(socket.getOutputStream(), true);
+                in =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 mensagem = respostaCliente();
                 if (mensagem.startsWith("TOKEN:")) {
                     response = gerarResposta(mensagem.substring(6));
@@ -71,34 +71,32 @@ public class ServidorLogin {
                     if (user != null) {
                         usuarios.put(response.getSession(), user);
                         out.println(response.getSession());
-                    }else{
-                        response.setError("Usuario nao cadastrado");                        
+                    } else {
+                        response.setError("Usuario nao cadastrado");
                     }
+                } else {
+                    response.setError("Erro de protocolo");
                 }
             } catch (IOException ex) {
                 response.setError("Erro ao processar token");
                 ex.printStackTrace();
             } finally {
                 try {
+                    byte[] b = ConversorXML.objetoParaXml(LoginResponse.class, response);
+                    out.println(new String(b, "utf-8"));
                     socket.close();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                 }
-            }
-            try {
-                byte[] b = ConversorXML.objetoParaXml(LoginResponse.class, response);
-                out.println(b);
-            } catch (JAXBException ex) {
-                ex.printStackTrace();
             }            
         }
 
         private String respostaCliente() throws IOException {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            byte[] b = new byte[1];
-            while (in.read(b) != -1) {
-                outputStream.write(b);
-            }
-            return new String(outputStream.toByteArray());
+            //yteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            //yte[] b = new byte[1];
+            //hile (in.read(b) != -1) {
+            //   outputStream.write(b);
+            //
+            return in.readLine();
         }
 
         private LoginResponse gerarResposta(String token) throws MalformedURLException, IOException {
@@ -111,19 +109,18 @@ public class ServidorLogin {
             while ((input.read(b)) != 1) {
                 output.write(b);
             }
-            String[] retorno = new String(output.toByteArray()).split(",");            
+            String[] retorno = new String(output.toByteArray()).split(",");
             LoginResponse response = new LoginResponse();
-            for (String prop: retorno){
-                if (prop.startsWith("\"email\":")){
+            for (String prop : retorno) {
+                if (prop.startsWith("\"email\":")) {
                     prop.replace("\"", "");
                     response.setEmail(prop.substring(6).replace("\\u0040", "@"));
-                }                    
-                else if (prop.startsWith("\"name\":")){
+                } else if (prop.startsWith("\"name\":")) {
                     prop.replace("\"", "");
                     response.setName(prop.substring(5));
-                }                                    
+                }
             }
-            response.setSession(System.currentTimeMillis()+response.getEmail());
+            response.setSession(System.currentTimeMillis() + response.getEmail());
             return response;
         }
 

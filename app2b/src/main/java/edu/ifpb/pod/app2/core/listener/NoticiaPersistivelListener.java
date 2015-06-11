@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class NoticiaPersistivelListener implements PersisteNoticiaListener {
 
-    private final UsuarioPersistivelDAOIF usuarioPersistivelDAO = new UsuarioPersistivelDAO();
+    private final UsuarioPersistivelDAOIF usuarioPersistivelDAO = new UsuarioPersistivelDAO("edu.ifpb.pod_app2b");
 
     public NoticiaPersistivelListener() {
     }
