@@ -12,6 +12,8 @@
         <module>pubnoticia-conversor</module>
         <module>pubnoticia-core</module>
         <module>pubnoticia-middleware-recebe-notificacao</module>
+        <module>app2a</module>
+        <module>app2-core</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -1,7 +1,6 @@
 package br.edu.ifpb.pod.app2.sistema;
 
-import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
-import br.edu.ifpb.pod.app2.core.entidades.Noticia;
+import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
 
 /**
  *
@@ -9,9 +8,9 @@ import br.edu.ifpb.pod.app2.core.entidades.Noticia;
  */
 public class ConverteNoticias {
  
-    public static NoticiaPersistivel converterNoticiaEmNoticiaPersistivel (Noticia noticia){
+    public static NoticiaPersistivel converterNoticiaEmNoticiaPersistivel (NoticiaPersistivel noticia){
         NoticiaPersistivel noticiaPersistivel = new NoticiaPersistivel();
-        noticiaPersistivel.setAutores(noticia.getAutor());
+        noticiaPersistivel.setAutores(noticia.getAutores());
         noticiaPersistivel.setConteudo(noticia.getConteudo());
         noticiaPersistivel.setImagem(noticia.getImagem());
         noticiaPersistivel.setResumo(noticia.getResumo());

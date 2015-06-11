@@ -1,9 +1,9 @@
 
 package br.edu.ifpb.pod.app2.teste;
 
-import br.edu.ifpb.pod.app2.dao.UsuarioPersistivelDAO;
-import br.edu.ifpb.pod.app2.dao.interfaces.UsuarioPersistivelDAOIF;
-import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
+import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
+import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAOIF;
+import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 
 /**
  *

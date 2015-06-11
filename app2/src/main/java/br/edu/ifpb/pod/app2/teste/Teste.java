@@ -1,17 +1,17 @@
 package br.edu.ifpb.pod.app2.teste;
 
-import br.edu.ifpb.pod.app2.dao.interfaces.DAO;
-import br.edu.ifpb.pod.app2.dao.NoticiaPersistivelDAO;
-import br.edu.ifpb.pod.app2.dao.UsuarioPersistivelDAO;
-import br.edu.ifpb.pod.app2.dao.interfaces.NoticiaPersistiveDAOlIF;
-import br.edu.ifpb.pod.app2.dao.interfaces.UsuarioPersistivelDAOIF;
-import br.edu.ifpb.pod.app2.entidades.NoticiaPersistivel;
-import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
+import edu.ifpb.pod.app2.core.persistencia.DAO;
+import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistivelDAO;
+import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
+import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistiveDAOlIF;
+import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAOIF;
+import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import java.util.List;
 import br.edu.ifpb.pod.app2.persistencia.listener.NoticiaPersistivelListener;
 import br.edu.ifpb.pod.app2.persistencia.listener.PersisteNoticiaListener;
-import br.edu.ifpb.pod.app2.conversor.ConversorXML;
-import br.edu.ifpb.pod.app2.core.entidades.Noticia;
+import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
+import br.edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,14 +45,14 @@ public class Teste {
 //        Teste2 teste2=new Teste2();
 //        teste2.teste();
 
-        Noticia noticia = new Noticia();
+        NoticiaPersistivel noticia = new NoticiaPersistivel();
         noticia.setConteudo("sdasdas");
         noticia.setAutor("Joao");
         byte[] a=Files.readAllBytes(Paths.get("/home/emanuel/Imagens/logo.png"));
         noticia.setImagem(a);
         
         try {
-            String text=new String(ConversorXML.objetoParaXml(Noticia.class, noticia));
+            String text=new String(ConversorXML.objetoParaXml(NoticiaPersistivel.class, noticia));
             System.out.println(text);
 //            text=Base64.getEncoder().encodeToString(text.getBytes());
 //            System.out.println(text);

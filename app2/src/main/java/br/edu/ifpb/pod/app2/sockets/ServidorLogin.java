@@ -1,8 +1,8 @@
 package br.edu.ifpb.pod.app2.sockets;
 
-import br.edu.ifpb.pod.app2.dao.UsuarioPersistivelDAO;
-import br.edu.ifpb.pod.app2.dao.interfaces.DAO;
-import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
+import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
+import edu.ifpb.pod.app2.core.persistencia.DAO;
+import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,18 +12,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Emanuel Batista da Silva Filho
+ * @author DouglasGabriel
  */
 public class ServidorLogin {
 
-    private static final int PORT = 12345;
-    /*TODO pensar numa estratégia para que este objeto fique disponível para 
-    todos os que possivelmente irão manipulá-lo*/
+    private static final int PORT = 12342;    
     private Map<String, UsuarioPersistivel> usuarios;
     private DAO<UsuarioPersistivel> daoUsuario = new UsuarioPersistivelDAO();
 
@@ -56,8 +53,7 @@ public class ServidorLogin {
         @Override
         public void run() {
             try {
-                out = new PrintWriter(socket.getOutputStream(), true);
-                out.println("ACCEPTED");
+                out = new PrintWriter(socket.getOutputStream(), true);                
                 in = socket.getInputStream();
                 mensagem = respostaCliente();
                 if (mensagem.startsWith("TOKEN:")) {
@@ -69,10 +65,12 @@ public class ServidorLogin {
                     if (user != null) {
                         usuarios.put(userEmail, user);
                         out.println(System.currentTimeMillis()+userEmail);
+                    }else{
+                        out.println("ERRO:Usuario nao cadastrado");
                     }
                 }
             } catch (IOException ex) {
-                Logger.getLogger(ServidorLogin.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             } finally {
                 try {
                     socket.close();

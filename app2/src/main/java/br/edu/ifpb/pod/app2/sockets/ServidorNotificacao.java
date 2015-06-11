@@ -1,8 +1,8 @@
 package br.edu.ifpb.pod.app2.sockets;
 
-import br.edu.ifpb.pod.app2.dao.UsuarioPersistivelDAO;
-import br.edu.ifpb.pod.app2.dao.interfaces.UsuarioPersistivelDAOIF;
-import br.edu.ifpb.pod.app2.entidades.UsuarioPersistivel;
+import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
+import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAOIF;
+import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,9 +15,9 @@ import java.util.Map;
  *
  * @author Emanuel Batista da Silva Filho
  */
-public class ServidorNotificacao {
+public class ServidorNotificacao{
 
-    private static final int PORT = 2010;
+    private static final int PORT = 12343;
     private Map<String, UsuarioPersistivel> usuarios;
 
     public ServidorNotificacao(Map<String, UsuarioPersistivel> usuarios) {
