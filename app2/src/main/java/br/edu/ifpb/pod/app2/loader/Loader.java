@@ -1,7 +1,7 @@
 package br.edu.ifpb.pod.app2.loader;
 
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
-import br.edu.ifpb.pod.app2.sockets.ServidorLogin;
+import edu.ifpb.pod.app2b.socket.ServidorLogin;
 import br.edu.ifpb.pod.app2.sockets.ServidorNotificacao;
 import edu.ifpb.pod.app2a.sockets.ServidorPublicacao;
 import java.util.HashMap;

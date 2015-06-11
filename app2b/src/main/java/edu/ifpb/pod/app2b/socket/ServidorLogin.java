@@ -1,8 +1,10 @@
-package br.edu.ifpb.pod.app2.sockets;
+package edu.ifpb.pod.app2b.socket;
 
+import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.DAO;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
+import edu.ifpb.pod.app2b.pojos.LoginResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +14,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -20,9 +25,9 @@ import java.util.Map;
  */
 public class ServidorLogin {
 
-    private static final int PORT = 12342;    
+    private static final int PORT = 1234;    
     private Map<String, UsuarioPersistivel> usuarios;
-    private DAO<UsuarioPersistivel> daoUsuario = new UsuarioPersistivelDAO();
+    private DAO<UsuarioPersistivel> daoUsuario = new UsuarioPersistivelDAO("edu.ifpb.pod_app2b");
 
     public ServidorLogin(Map<String, UsuarioPersistivel> usuarios) {
         this.usuarios = usuarios;
@@ -52,25 +57,26 @@ public class ServidorLogin {
 
         @Override
         public void run() {
+            LoginResponse response = new LoginResponse();
             try {
                 out = new PrintWriter(socket.getOutputStream(), true);                
                 in = socket.getInputStream();
                 mensagem = respostaCliente();
                 if (mensagem.startsWith("TOKEN:")) {
-                    String userEmail = recuperarEmail(mensagem.substring(6));
+                    response = gerarResposta(mensagem.substring(6));
                     UsuarioPersistivel user
                             = daoUsuario.buscar(
-                                    userEmail, UsuarioPersistivel.class
+                                    response.getEmail(), UsuarioPersistivel.class
                             );
                     if (user != null) {
-                        usuarios.put(userEmail, user);
-                        out.println(System.currentTimeMillis()+userEmail);
+                        usuarios.put(response.getSession(), user);
+                        out.println(response.getSession());
                     }else{
-                        //criar um objeto response 
-                        out.println("ERRO:Usuario nao cadastrado");
+                        response.setError("Usuario nao cadastrado");                        
                     }
                 }
             } catch (IOException ex) {
+                response.setError("Erro ao processar token");
                 ex.printStackTrace();
             } finally {
                 try {
@@ -78,6 +84,12 @@ public class ServidorLogin {
                 } catch (IOException ex) {
                 }
             }
+            try {
+                byte[] b = ConversorXML.objetoParaXml(LoginResponse.class, response);
+                out.println(b);
+            } catch (JAXBException ex) {
+                ex.printStackTrace();
+            }            
         }
 
         private String respostaCliente() throws IOException {
@@ -89,7 +101,7 @@ public class ServidorLogin {
             return new String(outputStream.toByteArray());
         }
 
-        private String recuperarEmail(String token) throws MalformedURLException, IOException {
+        private LoginResponse gerarResposta(String token) throws MalformedURLException, IOException {
             URL url = new URL(
                     "https://graph.facebook.com/me?access_token=" + token
             );
@@ -99,15 +111,20 @@ public class ServidorLogin {
             while ((input.read(b)) != 1) {
                 output.write(b);
             }
-            //TODO verificar encoding para não quebrar e-mail
             String[] retorno = new String(output.toByteArray()).split(",");            
+            LoginResponse response = new LoginResponse();
             for (String prop: retorno){
                 if (prop.startsWith("\"email\":")){
                     prop.replace("\"", "");
-                    return prop.substring(6);
+                    response.setEmail(prop.substring(6).replace("\\u0040", "@"));
                 }                    
+                else if (prop.startsWith("\"name\":")){
+                    prop.replace("\"", "");
+                    response.setName(prop.substring(5));
+                }                                    
             }
-            return null;
+            response.setSession(System.currentTimeMillis()+response.getEmail());
+            return response;
         }
 
     }
