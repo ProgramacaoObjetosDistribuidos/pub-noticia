@@ -67,7 +67,7 @@ public class ServidorPublicacao {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("GETNEWS");
-                noticia = (NoticiaPersistivel) ConversorXML.xmlParaObjeto(NoticiaPersistivel.class, in.readLine().getBytes());
+                noticia = ConversorXML.xmlParaObjeto(NoticiaPersistivel.class, in.readLine().getBytes());
                 out.println("SUCCESS");
             } catch (Exception e) {
                 out.println("ERROR");
