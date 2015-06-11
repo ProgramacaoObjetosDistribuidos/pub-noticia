@@ -10,12 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author DouglasGabriel
  */
 @Entity
+@XmlRootElement
 @NamedQueries({@NamedQuery(name = "usuario.todos",query = "SELECT u FROM UsuarioPersistivel u")})
 public class UsuarioPersistivel implements Serializable {
 
