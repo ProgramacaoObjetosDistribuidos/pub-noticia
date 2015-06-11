@@ -20,33 +20,8 @@ import javax.xml.bind.JAXBException;
  */
 public class Main {
     public static void main(String[] args) {
-        try {
-            //        ServerSocketNoticia serverNoticia=new ServerSocketNoticia();
-//        serverNoticia.inicialize();
-            NoticiaPersistivel noticia=new NoticiaPersistivel();
-            noticia.setConteudo("dagckasdas");
-            noticia.setAutores("asad");
-            noticia.setId(12);
-            noticia.setImagem(null);
-            noticia.setNotificada(true);
-            noticia.setPublicada(true);
-            noticia.setResumo("sdas");
-            NoticiaPersistivel noticia1=new NoticiaPersistivel();
-            noticia1.setConteudo("dagckasdas");
-            noticia1.setAutores("asad");
-            noticia1.setId(12);
-            noticia1.setImagem(null);
-            noticia1.setNotificada(true);
-            noticia1.setPublicada(true);
-            noticia1.setResumo("sdas");
-            Noticias noticias=new Noticias();
-            noticias.addNoticia(noticia);
-            noticias.addNoticia(noticia1);
-            byte[] b=ConversorXML.objetoParaXml(Noticias.class, noticias);
-            System.out.println(new String(b));
-        } catch (JAXBException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+         
         
         
     }
