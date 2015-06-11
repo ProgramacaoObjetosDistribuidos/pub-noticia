@@ -25,11 +25,11 @@ public class RepositorioUsuario {
         
     }
 
-    public Map<String, UsuarioPersistivel> getUsuario() {
+    public Map<String, UsuarioPersistivel> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuario(Map<String, UsuarioPersistivel> usuario) {
+    public void setUsuarios(Map<String, UsuarioPersistivel> usuario) {
         this.usuarios = usuario;
     }
     
@@ -39,6 +39,9 @@ public class RepositorioUsuario {
     
     public void removeUsuario(String chave){
         usuarios.remove(chave);
+    }
+    public UsuarioPersistivel getUsuario(String chave){
+        return usuarios.get(chave);
     }
     
     

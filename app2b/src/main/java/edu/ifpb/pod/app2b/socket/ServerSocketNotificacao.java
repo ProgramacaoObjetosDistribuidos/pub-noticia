@@ -5,6 +5,10 @@
  */
 package edu.ifpb.pod.app2b.socket;
 
+import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
+import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticias;
+import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAOIF;
 import edu.ifpb.pod.app2b.socket.main.RepositorioUsuario;
@@ -18,6 +22,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -51,17 +56,30 @@ public class ServerSocketNotificacao {
         public void run() {
             try {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream());
-                UsuarioPersistivelDAOIF usuarioDAOIF = new UsuarioPersistivelDAO();
+                out = new PrintWriter(socket.getOutputStream(),true);
+//                UsuarioPersistivelDAOIF usuarioDAOIF = new UsuarioPersistivelDAO();
                 RepositorioUsuario repositorioUsuario = RepositorioUsuario.getInstance();
+                UsuarioPersistivel usuario=null;
                 String mensagem=in.readLine();
                 if(mensagem.toUpperCase().startsWith("HASNOTIFICATION")){
                     String id=mensagem.substring(17);
+                    usuario=repositorioUsuario.getUsuario(id);
+                    if(usuario!=null || usuario.getNovasNoticias()!=null || !usuario.getNovasNoticias().isEmpty()){
+                        Noticias noticias=new Noticias(usuario.getNovasNoticias());
+                        byte[] noticiaXml=ConversorXML.objetoParaXml(Noticias.class, noticias);
+                        out.println(new String(noticiaXml));
+                        out.println("SUCESS");
+                        
+                        
+                    }else{
+                        out.println("ERRO");
+                    }
+                    
                     
                 }
                         
-            } catch (IOException ex) {
-                Logger.getLogger(ServerSocketNotificacao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException | JAXBException ex) {
+                out.println("ERRo");
             }
 
         }

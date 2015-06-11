@@ -5,14 +5,6 @@
  */
 package edu.ifpb.pod.app2b.socket.main;
 
-import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
-import edu.ifpb.pod.app2.core.entidades.Noticias;
-import edu.ifpb.pod.app2b.socket.ServerSocketNoticia;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.bind.JAXBException;
 
 /**
  *
