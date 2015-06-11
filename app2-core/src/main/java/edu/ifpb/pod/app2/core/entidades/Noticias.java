@@ -12,29 +12,29 @@ import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
 @XmlRootElement
 public class Noticias {
 
-    List<NoticiaPersistivel> list = new ArrayList<>();
+    List<NoticiaPersistivel> noticia = new ArrayList<>();
     
     public Noticias(){
         
     }
     
     public Noticias (List<NoticiaPersistivel> list){
-        this.list = list;
+        this.noticia = list;
     }
     
     public void addNoticia (NoticiaPersistivel noticia){
-        list.add(noticia);
+        this.noticia.add(noticia);
     }
     
     public void removeNoticia (NoticiaPersistivel noticia){
-        list.remove(noticia);
+        this.noticia.remove(noticia);
     }
 
-    public List<NoticiaPersistivel> getList() {
-        return list;
+    public List<NoticiaPersistivel> getNoticia() {
+        return noticia;
     }
 
-    public void setList(List<NoticiaPersistivel> list) {
-        this.list = list;
+    public void setNoticia(List<NoticiaPersistivel> noticia) {
+        this.noticia = noticia;
     }        
 }

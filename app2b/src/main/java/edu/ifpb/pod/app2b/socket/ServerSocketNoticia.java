@@ -8,6 +8,7 @@ package edu.ifpb.pod.app2b.socket;
 import edu.ifpb.pod.app2.core.configuracao.Configuracoes;
 import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
 import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.listener.NoticiaPersistivelListener;
 import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistiveDAOlIF;
 import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistivelDAO;
 import java.io.BufferedReader;
@@ -28,14 +29,19 @@ public class ServerSocketNoticia {
 
     private final int PORT = Configuracoes.PORTA_APP2B_NOTIFICACAO_NOVA_NOTICIA;
     
-    public void inicialize() throws IOException {
-        ServerSocket server = new ServerSocket(PORT);
+    public void inicialize(){
         try{
-            while(true){
-                new PublicadorNoticia(server.accept()).start();
+            ServerSocket server = new ServerSocket(PORT);
+            try{
+                while(true){
+                    new PublicadorNoticia(server.accept()).start();
+                }
+            }finally{
+                server.close();
             }
-        }finally{
-            server.close();
+            
+        }   catch (IOException ex) {
+            Logger.getLogger(ServerSocketNoticia.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -57,7 +63,7 @@ public class ServerSocketNoticia {
                in=new BufferedReader(new InputStreamReader(socket.getInputStream()));
                out=new PrintWriter(socket.getOutputStream());
                out.println("GETNEWS");
-               noticiaPersistivel=ConversorXML.xmlParaObjeto(NoticiaPersistivel.class, in.readLine().getBytes());
+               noticiaPersistivel=(NoticiaPersistivel)ConversorXML.xmlParaObjeto(NoticiaPersistivel.class, in.readLine().getBytes());
                out.println("SUCESS");
                
            } catch (IOException | JAXBException ex) {
@@ -71,7 +77,12 @@ public class ServerSocketNoticia {
            }
            if(noticiaPersistivel!=null){
                NoticiaPersistiveDAOlIF noticiaDAO=new NoticiaPersistivelDAO();
+               NoticiaPersistivelListener noticiaPersistivelListener=new NoticiaPersistivelListener();
                System.out.println(noticiaPersistivel.getConteudo());
+//               noticiaDAO.salvar(noticiaPersistivel);
+//               //Falta o Map de usuarios
+//               noticiaPersistivelListener.avisar(noticiaPersistivel, null);
+               
            }
            
         }

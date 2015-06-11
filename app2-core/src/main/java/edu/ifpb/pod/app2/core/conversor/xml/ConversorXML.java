@@ -21,10 +21,10 @@ public class ConversorXML {
         return output.toByteArray();
     }
     
-    public static <T> T xmlParaObjeto (Class<T>  clazz, byte[] b) throws JAXBException{
+    public static Object xmlParaObjeto (Class  clazz, byte[] b) throws JAXBException{
         JAXBContext context = JAXBContext.newInstance(clazz);
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        T obj = (T) unmarshaller.unmarshal(new ByteArrayInputStream(b));
+        Object obj = unmarshaller.unmarshal(new ByteArrayInputStream(b));
         return obj;
     }
         

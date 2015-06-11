@@ -24,18 +24,14 @@ import java.util.Queue;
 public class ServidorPublicacao {
 
     private final int PORT = Configuracoes.PORTA_APP2A_PUBLICADOR_NOTICIA;
-    private Map<String, UsuarioPersistivel> usuarios;
     private Queue<NovaNoticiaListener> novaNoticiaListeners = new LinkedList<>();
 
-    public ServidorPublicacao(Map<String, UsuarioPersistivel> ususarios) {
-        this.usuarios = usuarios;
-    }
     
     public void addNovaNoticiaListener(NovaNoticiaListener listener){
         novaNoticiaListeners.add(listener);        
     }        
 
-    public void inicialize(String[] args) throws Exception {
+    public void inicialize() throws Exception {
         ServerSocket listener = new ServerSocket(PORT);
         try {
             while (true) {
@@ -67,7 +63,7 @@ public class ServidorPublicacao {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("GETNEWS");
-                noticia = ConversorXML.xmlParaObjeto(NoticiaPersistivel.class, in.readLine().getBytes());
+                noticia = (NoticiaPersistivel)ConversorXML.xmlParaObjeto(NoticiaPersistivel.class, in.readLine().getBytes());
                 out.println("SUCCESS");
             } catch (Exception e) {
                 out.println("ERROR");

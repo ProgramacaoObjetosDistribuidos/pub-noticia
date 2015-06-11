@@ -66,6 +66,7 @@ public class ServidorLogin {
                         usuarios.put(userEmail, user);
                         out.println(System.currentTimeMillis()+userEmail);
                     }else{
+                        //criar um objeto response 
                         out.println("ERRO:Usuario nao cadastrado");
                     }
                 }
