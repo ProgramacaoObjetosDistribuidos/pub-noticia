@@ -64,8 +64,8 @@ public class ServidorLogin {
                                     response.getEmail(), UsuarioPersistivel.class
                             );
                     if (user != null) {
-                        RepositorioUsuario.getInstance().addUsuario(response.getSession(), user);
                         response.setSession(System.currentTimeMillis() + response.getEmail());
+                        RepositorioUsuario.getInstance().addUsuario(response.getSession(), user);
                     } else {
                         response.setError("Usuario nao cadastrado");
                     }
