@@ -66,11 +66,10 @@ public class ServerSocketNotificacao {
                     while (channel.isConnected()) {
                         usuario = repositorioUsuario.getUsuario(id);
                         if (usuario != null) {
-                            if (usuario.getNovasNoticias() != null || !usuario.getNovasNoticias().isEmpty()) {
+                            if (usuario.getNovasNoticias() != null && !usuario.getNovasNoticias().isEmpty()) {
                                 Noticias noticias = new Noticias(usuario.getNovasNoticias());
                                 byte[] noticiaXml = ConversorXML.objetoParaXml(Noticias.class, noticias);
                                 out.println(new String(noticiaXml));
-                                out.println("SUCESS");
                             } else {
                                 out.println("NOTNOTIFICATION");
                             }
