@@ -7,7 +7,7 @@ package edu.ifpb.pod.app2b.socket;
 
 import edu.ifpb.pod.app2.core.configuracao.Configuracoes;
 import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 import edu.ifpb.pod.app2.core.listener.NoticiaPersistivelListener;
 import edu.ifpb.pod.app2.core.listener.NovaNoticiaListener;
 import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistiveDAOlIF;
@@ -64,12 +64,12 @@ public class ServerSocketNoticia {
             
         @Override
         public void run() {
-           NoticiaPersistivel noticiaPersistivel=null;
+           Noticia noticiaPersistivel=null;
            try {
                in=new BufferedReader(new InputStreamReader(socket.getInputStream()));
                out=new PrintWriter(socket.getOutputStream());
                out.println("GETNEWS");
-               noticiaPersistivel=(NoticiaPersistivel)ConversorXML.xmlParaObjeto(NoticiaPersistivel.class, in.readLine().getBytes());
+               noticiaPersistivel=(Noticia)ConversorXML.xmlParaObjeto(Noticia.class, in.readLine().getBytes());
                out.println("SUCESS");
                
            } catch (IOException | JAXBException ex) {
@@ -82,7 +82,7 @@ public class ServerSocketNoticia {
                }
            }
            if(noticiaPersistivel!=null){
-               NoticiaPersistiveDAOlIF noticiaDAO=new NoticiaPersistivelDAO();
+               NoticiaPersistiveDAOlIF noticiaDAO=new NoticiaPersistivelDAO("edu.ifpb.pod_app2b");
                NoticiaPersistivelListener noticiaPersistivelListener=new NoticiaPersistivelListener();
                System.out.println(noticiaPersistivel.getConteudo());
                listener.avisar(noticiaPersistivel);

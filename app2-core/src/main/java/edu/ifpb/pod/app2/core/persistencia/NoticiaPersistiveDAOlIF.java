@@ -5,15 +5,15 @@
  */
 package edu.ifpb.pod.app2.core.persistencia;
 
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 import java.util.List;
 
 /**
  *
  * @author Emanuel Batista da Silva Filho
  */
-public interface NoticiaPersistiveDAOlIF extends DAO<NoticiaPersistivel>{
+public interface NoticiaPersistiveDAOlIF extends DAO<Noticia>{
     
-    public List<NoticiaPersistivel> getNoticiasNaoNotificadas ();
+    public List<Noticia> getNoticiasNaoNotificadas ();
     
 }

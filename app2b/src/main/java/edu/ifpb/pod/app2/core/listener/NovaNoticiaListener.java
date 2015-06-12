@@ -1,7 +1,7 @@
 
 package edu.ifpb.pod.app2.core.listener;
 
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 
 /**
  *
@@ -9,6 +9,6 @@ import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
  */
 public interface NovaNoticiaListener {
 
-    public void avisar (NoticiaPersistivel noticia);
+    public void avisar (Noticia noticia);
     
 }

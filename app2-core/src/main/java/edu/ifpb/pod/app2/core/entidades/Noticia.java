@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
-public class NoticiaPersistivel implements Serializable {
+public class Noticia implements Serializable {
 
     @GeneratedValue
     @Id
@@ -29,7 +29,7 @@ public class NoticiaPersistivel implements Serializable {
     @Lob
     private byte[] imagem;
 
-    public NoticiaPersistivel(){
+    public Noticia(){
         publicada = false;
         notificada = false;
     }

@@ -1,6 +1,6 @@
 package edu.ifpb.pod.app2.core.listener;
 
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import java.util.Map;
 
@@ -10,5 +10,5 @@ import java.util.Map;
  */
 public interface PersisteNoticiaListener {
 
-    void avisar(NoticiaPersistivel noticia, Map<String, UsuarioPersistivel> mapaUsuarios);
+    void avisar(Noticia noticia, Map<String, UsuarioPersistivel> mapaUsuarios);
 }

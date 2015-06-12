@@ -2,7 +2,7 @@ package edu.ifpb.pod.app2.core.listener;
 
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAOIF;
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class NoticiaPersistivelListener implements PersisteNoticiaListener {
     }
 
     @Override
-    public void avisar(NoticiaPersistivel noticia, Map<String, UsuarioPersistivel> mapaUsuarios) {
+    public void avisar(Noticia noticia, Map<String, UsuarioPersistivel> mapaUsuarios) {
         Thread thread = new Thread(){
             @Override
             public void run() {              

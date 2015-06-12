@@ -6,7 +6,7 @@
 package edu.ifpb.pod.app2b.socket;
 
 import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 import edu.ifpb.pod.app2.core.entidades.Noticias;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import edu.ifpb.pod.app2.core.listener.FimConexaoClienteListener;
@@ -24,8 +24,6 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -47,7 +45,7 @@ public class ServerSocketNotificacao implements NovaNoticiaListener, FimConexaoC
         }
     }
 
-    public void avisar(NoticiaPersistivel noticia) {
+    public void avisar(Noticia noticia) {
         for(SendNotification thread: threads){
             thread.processamento();
         }

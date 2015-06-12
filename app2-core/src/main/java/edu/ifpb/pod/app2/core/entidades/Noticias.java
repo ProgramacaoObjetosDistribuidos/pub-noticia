@@ -3,7 +3,7 @@ package edu.ifpb.pod.app2.core.entidades;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 
 /**
  *
@@ -12,29 +12,29 @@ import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
 @XmlRootElement
 public class Noticias {
 
-    List<NoticiaPersistivel> noticia = new ArrayList<>();
+    List<Noticia> noticia = new ArrayList<>();
     
     public Noticias(){
         
     }
     
-    public Noticias (List<NoticiaPersistivel> list){
+    public Noticias (List<Noticia> list){
         this.noticia = list;
     }
     
-    public void addNoticia (NoticiaPersistivel noticia){
+    public void addNoticia (Noticia noticia){
         this.noticia.add(noticia);
     }
     
-    public void removeNoticia (NoticiaPersistivel noticia){
+    public void removeNoticia (Noticia noticia){
         this.noticia.remove(noticia);
     }
 
-    public List<NoticiaPersistivel> getNoticia() {
+    public List<Noticia> getNoticia() {
         return noticia;
     }
 
-    public void setNoticia(List<NoticiaPersistivel> noticia) {
+    public void setNoticia(List<Noticia> noticia) {
         this.noticia = noticia;
     }        
 }

@@ -1,6 +1,6 @@
 package edu.ifpb.pod.app2.core.persistencia;
 
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -9,7 +9,7 @@ import javax.persistence.Query;
  * @author Emanuel Batista da Silva Filho
  * @author DouglasGabriel
  */
-public class NoticiaPersistivelDAO extends DAOJPA<NoticiaPersistivel> implements NoticiaPersistiveDAOlIF {
+public class NoticiaPersistivelDAO extends DAOJPA<Noticia> implements NoticiaPersistiveDAOlIF {
 
     public NoticiaPersistivelDAO (String unidadePersistencia){
         super(unidadePersistencia);
@@ -20,15 +20,15 @@ public class NoticiaPersistivelDAO extends DAOJPA<NoticiaPersistivel> implements
     }
     
     @Override
-    public boolean salvar(NoticiaPersistivel noticia) {
+    public boolean salvar(Noticia noticia) {
        super.salvar(noticia);       
        return true;
     }
 
     @Override
-    public List<NoticiaPersistivel> getNoticiasNaoNotificadas() {
+    public List<Noticia> getNoticiasNaoNotificadas() {
         Query query = entityManager.createQuery(
-                "SELECT n FROM NoticiaPersistivel n WHERE n.notificada = false"
+                "SELECT n FROM Noticia n WHERE n.notificada = false"
         );
         return query.getResultList();
     }

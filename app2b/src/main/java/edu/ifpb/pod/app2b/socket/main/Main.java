@@ -5,16 +5,19 @@
  */
 package edu.ifpb.pod.app2b.socket.main;
 
+import edu.ifpb.pod.app2b.socket.ServerSocketNoticia;
+import edu.ifpb.pod.app2b.socket.ServerSocketNotificacao;
+import java.io.IOException;
 
 /**
  *
  * @author emanuel
  */
 public class Main {
-    public static void main(String[] args) {
 
-         
-        
-        
+    public static void main(String[] args) throws IOException {
+        ServerSocketNotificacao serverSocketNotificacao = new ServerSocketNotificacao();
+        new ServerSocketNoticia(serverSocketNotificacao).inicialize();
+        serverSocketNotificacao.inicialize();
     }
 }

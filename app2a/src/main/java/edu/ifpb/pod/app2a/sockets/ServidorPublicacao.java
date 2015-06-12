@@ -4,7 +4,7 @@ import edu.ifpb.pod.app2.core.configuracao.Configuracoes;
 import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistiveDAOlIF;
 import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
-import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
+import edu.ifpb.pod.app2.core.entidades.Noticia;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import edu.ifpb.pod.app2a.listeners.NovaNoticiaListener;
 import java.io.BufferedReader;
@@ -47,7 +47,7 @@ public class ServidorPublicacao {
         private Socket socket;
         private BufferedReader in;
         private PrintWriter out;
-        private NoticiaPersistivel noticia;
+        private Noticia noticia;
         private NoticiaPersistiveDAOlIF daoNoticia;
         private Queue<NovaNoticiaListener> novaNoticiaListeners;
 
@@ -60,10 +60,10 @@ public class ServidorPublicacao {
         @Override
         public void run() {
             try {
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("GETNEWS");
-                noticia = (NoticiaPersistivel)ConversorXML.xmlParaObjeto(NoticiaPersistivel.class, in.readLine().getBytes());
+                noticia = (Noticia)ConversorXML.xmlParaObjeto(Noticia.class, in.readLine().getBytes());
                 out.println("SUCCESS");
             } catch (Exception e) {
                 out.println("ERROR");

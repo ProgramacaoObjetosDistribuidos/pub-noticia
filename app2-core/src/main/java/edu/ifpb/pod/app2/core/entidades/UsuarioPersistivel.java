@@ -24,7 +24,7 @@ public class UsuarioPersistivel implements Serializable {
     private String email;
     private String nome;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<NoticiaPersistivel> novasNoticias;
+    private List<Noticia> novasNoticias;
 
     public UsuarioPersistivel() {
         this.novasNoticias=new ArrayList<>();
@@ -49,22 +49,22 @@ public class UsuarioPersistivel implements Serializable {
         this.email = email;
     }
 
-    public List<NoticiaPersistivel> getNovasNoticias() {
+    public List<Noticia> getNovasNoticias() {
         return novasNoticias;
     }
 
-    public void setNovasNoticias(List<NoticiaPersistivel> novasNoticias) {
+    public void setNovasNoticias(List<Noticia> novasNoticias) {
         this.novasNoticias = novasNoticias;
     }
         
-    public void addNovaNoticia (NoticiaPersistivel noticia){
+    public void addNovaNoticia (Noticia noticia){
         if(this.novasNoticias==null){
             this.novasNoticias=new ArrayList<>();
         }
         novasNoticias.add(noticia);
     }
     
-    public void removeNoticia (NoticiaPersistivel noticia){
+    public void removeNoticia (Noticia noticia){
         novasNoticias.remove(noticia);
     }
     

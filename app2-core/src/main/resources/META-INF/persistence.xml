@@ -2,7 +2,7 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="edu.ifpb.pod_app2a" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel</class>
+    <class>edu.ifpb.pod.app2.core.entidades.Noticia</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/app2a"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
@@ -13,8 +13,8 @@
   </persistence-unit>
   <persistence-unit name="edu.ifpb.pod_app2b" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel</class>
     <class>edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel</class>
+    <class>edu.ifpb.pod.app2.core.entidades.Noticia</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/app2b"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
