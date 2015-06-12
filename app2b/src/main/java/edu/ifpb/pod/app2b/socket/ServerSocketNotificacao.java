@@ -56,30 +56,34 @@ public class ServerSocketNotificacao {
         public void run() {
             try {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream(),true);
+                out = new PrintWriter(socket.getOutputStream(), true);
 //                UsuarioPersistivelDAOIF usuarioDAOIF = new UsuarioPersistivelDAO();
                 RepositorioUsuario repositorioUsuario = RepositorioUsuario.getInstance();
-                UsuarioPersistivel usuario=null;
-                String mensagem=in.readLine();
-                if(mensagem.toUpperCase().startsWith("HASNOTIFICATION")){
-                    String id=mensagem.substring(17);
-                    usuario=repositorioUsuario.getUsuario(id);
-                    if(usuario!=null || usuario.getNovasNoticias()!=null || !usuario.getNovasNoticias().isEmpty()){
-                        Noticias noticias=new Noticias(usuario.getNovasNoticias());
-                        byte[] noticiaXml=ConversorXML.objetoParaXml(Noticias.class, noticias);
-                        out.println(new String(noticiaXml));
-                        out.println("SUCESS");
-                        
-                        
-                    }else{
-                        out.println("ERRO");
+                UsuarioPersistivel usuario = null;
+                String mensagem = in.readLine();
+                if (mensagem.toUpperCase().startsWith("HASNOTIFICATION")) {
+                    String id = mensagem.substring(17);
+                    while (channel.isConnected()) {
+                        usuario = repositorioUsuario.getUsuario(id);
+                        if (usuario != null) {
+                            if (usuario.getNovasNoticias() != null && !usuario.getNovasNoticias().isEmpty()) {
+                                Noticias noticias = new Noticias(usuario.getNovasNoticias());
+                                byte[] noticiaXml = ConversorXML.objetoParaXml(Noticias.class, noticias);
+                                out.println(new String(noticiaXml));
+                            } else {
+                                out.println("NOTNOTIFICATION");
+                            }
+
+                        } else {
+                            out.println("ERRO");
+                        }
+                        Thread.sleep(10000);
                     }
-                    
-                    
+
                 }
-                        
-            } catch (IOException | JAXBException ex) {
-                out.println("ERRo");
+
+            } catch (IOException | JAXBException | InterruptedException ex) {
+                out.println("ERRO");
             }
 
         }
