@@ -35,9 +35,9 @@ public class NotificadorNovaNoticia implements NovaNoticiaListener {
             byte[] noticiaXML = ConversorXML.objetoParaXml(Noticia.class, noticia);
             Socket socket = new Socket(Configuracoes.IP_APP2B, Configuracoes.PORTA_APP2B_NOTIFICACAO_NOVA_NOTICIA);
             socket.getOutputStream().write(noticiaXML);
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            output.writeTo(System.out);
-            output.close();
+            //ByteArrayOutputStream output = new ByteArrayOutputStream();
+            //output.writeTo(System.out);
+            //output.close();
             socket.close();
         } catch (Exception ex) {
             ex.printStackTrace();

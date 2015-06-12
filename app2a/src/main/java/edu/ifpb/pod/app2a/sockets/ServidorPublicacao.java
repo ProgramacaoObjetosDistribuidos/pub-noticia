@@ -60,10 +60,11 @@ public class ServidorPublicacao {
         @Override
         public void run() {
             try {
-                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("GETNEWS");
-                noticia = (Noticia)ConversorXML.xmlParaObjeto(Noticia.class, in.readLine().getBytes());
+                String mensagem = in.readLine();
+                noticia = (Noticia)ConversorXML.xmlParaObjeto(Noticia.class, mensagem.getBytes());
                 out.println("SUCCESS");
             } catch (Exception e) {
                 out.println("ERROR");
@@ -79,6 +80,6 @@ public class ServidorPublicacao {
                 listener.avisar(noticia);
             }
             //TODO chamar método da API de Ari para mandar notícia para o site
-        }
+            }
     }
 }
