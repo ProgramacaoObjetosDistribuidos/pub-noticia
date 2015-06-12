@@ -4,6 +4,7 @@ import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAOIF;
 import edu.ifpb.pod.app2.core.entidades.Noticia;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
+import edu.ifpb.pod.app2b.socket.main.RepositorioUsuario;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class NoticiaPersistivelListener implements PersisteNoticiaListener {
     }
 
     @Override
-    public void avisar(Noticia noticia, Map<String, UsuarioPersistivel> mapaUsuarios) {
+    public void avisar(Noticia noticia) {
         Thread thread = new Thread(){
             @Override
             public void run() {              
@@ -29,8 +30,10 @@ public class NoticiaPersistivelListener implements PersisteNoticiaListener {
                     usuario.addNovaNoticia(noticia);
                     usuarioPersistivelDAO.atualizar(usuario);
                 }
+                Map<String,UsuarioPersistivel> mapaUsuarios=RepositorioUsuario.getInstance().getUsuarios();
                 for (String key: mapaUsuarios.keySet()){
                     UsuarioPersistivel usuarioPersistivel = mapaUsuarios.get(key);
+                    usuarioPersistivel.addNovaNoticia(noticia);
                     usuarioPersistivelDAO.atualizar(usuarioPersistivel);
                 }
             }                        

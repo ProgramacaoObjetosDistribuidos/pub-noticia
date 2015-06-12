@@ -80,10 +80,10 @@ public class ServerSocketNoticia {
                NoticiaPersistiveDAOlIF noticiaDAO=new NoticiaPersistivelDAO("edu.ifpb.pod_app2b");
                NoticiaPersistivelListener noticiaPersistivelListener=new NoticiaPersistivelListener();
                System.out.println(noticiaPersistivel.getConteudo());
+               noticiaDAO.salvar(noticiaPersistivel);
+               noticiaPersistivelListener.avisar(noticiaPersistivel);
+               
                listener.avisar(noticiaPersistivel);
-//               noticiaDAO.salvar(noticiaPersistivel);
-//               //Falta o Map de usuarios
-//               noticiaPersistivelListener.avisar(noticiaPersistivel, null);
                
            }
            

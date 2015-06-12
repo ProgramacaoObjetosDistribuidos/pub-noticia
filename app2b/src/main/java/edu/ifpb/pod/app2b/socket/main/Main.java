@@ -22,16 +22,38 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            ServerSocketNotificacao socketNotificacao=new ServerSocketNotificacao();
-            ServerSocketNoticia socketNoticia=new ServerSocketNoticia(socketNotificacao);
-            ServidorLogin servidorLogin=new ServidorLogin();
-            socketNotificacao.inicialize();
-            socketNoticia.inicialize();
+            ServerSocketNotificacao socketNotificacao = new ServerSocketNotificacao();
+            ServerSocketNoticia socketNoticia = new ServerSocketNoticia(socketNotificacao);
+            ServidorLogin servidorLogin = new ServidorLogin();
+            new Thread() {
+
+                @Override
+                public void run() {
+
+                    try {
+                        socketNotificacao.inicialize();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }.start();
+            System.out.println("Fim");
+            new Thread() {
+
+                @Override
+                public void run() {
+
+                    socketNoticia.inicialize();
+                }
+
+            }.start();
+
             servidorLogin.inicialize();
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }                         
+        }
     }
+
 }

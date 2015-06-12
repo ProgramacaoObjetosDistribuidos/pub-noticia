@@ -24,6 +24,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -37,7 +38,7 @@ public class ServerSocketNotificacao implements NovaNoticiaListener, FimConexaoC
 
     public void inicialize() throws IOException {
         ServerSocketChannel channel = ServerSocketChannel.open();
-        channel.bind(new InetSocketAddress("localhost",PORT));
+        channel.bind(new InetSocketAddress(PORT));
         while (true) {
             SendNotification sendNotification = new SendNotification(channel.accept(), this);
             threads.add(sendNotification);
@@ -46,12 +47,13 @@ public class ServerSocketNotificacao implements NovaNoticiaListener, FimConexaoC
     }
 
     public void avisar(Noticia noticia) {
-        for(SendNotification thread: threads){
+        System.out.println("Chegou notícia");
+        for (SendNotification thread : threads) {
             thread.processamento();
         }
     }
-    
-    public void avisar (Thread thread){
+
+    public void avisar(Thread thread) {
         threads.remove(thread);
     }
 
@@ -63,6 +65,7 @@ public class ServerSocketNotificacao implements NovaNoticiaListener, FimConexaoC
         private PrintWriter out;
         private String id;
         private FimConexaoClienteListener listener;
+        private boolean prontoProcessamento=true;
 
         public SendNotification(SocketChannel socketChannel, FimConexaoClienteListener listener) {
             this.socket = socketChannel.socket();
@@ -78,14 +81,19 @@ public class ServerSocketNotificacao implements NovaNoticiaListener, FimConexaoC
 //                UsuarioPersistivelDAOIF usuarioDAOIF = new UsuarioPersistivelDAO();                
                 String mensagem = in.readLine();
                 if (mensagem.toUpperCase().startsWith("HASNOTIFICATION")) {
-                    id = mensagem.substring(17);
+                    id = mensagem.substring(16);
+                    System.out.println(id);
                     while (channel.isConnected()) {
-                        processamento();
+                        if (prontoProcessamento) {
+                            processamento();
+                            prontoProcessamento=false;
+                            //in.readLine();
+                        }
                     }
                 }
             } catch (Exception e) {
                 out.println("ERRO");
-            }finally{
+            } finally {
                 try {
                     channel.close();
                     listener.avisar(this);
@@ -96,21 +104,28 @@ public class ServerSocketNotificacao implements NovaNoticiaListener, FimConexaoC
 
         }
 
-        public void processamento(){
-            try{
-            UsuarioPersistivel usuario = RepositorioUsuario.getInstance().getUsuario(id);
-            if (usuario != null) {
-                if (usuario.getNovasNoticias() != null && !usuario.getNovasNoticias().isEmpty()) {
-                    Noticias noticias = new Noticias(usuario.getNovasNoticias());
-                    byte[] noticiaXml = ConversorXML.objetoParaXml(Noticias.class, noticias);
-                    out.println(new String(noticiaXml));
+        public void processamento() {
+            try {
+                UsuarioPersistivel usuario = RepositorioUsuario.getInstance().getUsuario(id);
+                System.out.println("Enviar noticia para " + id);
+                if (usuario != null) {
+                    System.out.println("Enviando...");
+                    if (usuario.getNovasNoticias() != null && !usuario.getNovasNoticias().isEmpty()) {
+                        System.out.println("Enviando depois de verificação...");
+                        Noticias noticias = new Noticias(usuario.getNovasNoticias());
+                        byte[] noticiaXml = ConversorXML.objetoParaXml(Noticias.class, noticias);
+                        System.out.println("Escrevendo no stream...");
+                        out.println(new String(noticiaXml));
+                        out.flush();
+                        System.out.println("avisou " + usuario.getEmail());
+                        List<Noticia> lista = RepositorioUsuario.getInstance().getUsuario(id).getNovasNoticias();
+                        lista.removeAll(lista);
+//                    new UsuarioPersistivelDAO().atualizar(usuario);
+                    }
                 } else {
-                    out.println("NOTNOTIFICATION");
+                    out.println("ERRO");
                 }
-            } else {
-                out.println("ERRO");
-            }
-            }catch(Exception e){
+            } catch (Exception e) {
                 out.println("ERRO");
             }
         }

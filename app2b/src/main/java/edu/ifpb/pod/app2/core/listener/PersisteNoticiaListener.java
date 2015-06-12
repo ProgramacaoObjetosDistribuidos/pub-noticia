@@ -10,5 +10,5 @@ import java.util.Map;
  */
 public interface PersisteNoticiaListener {
 
-    void avisar(Noticia noticia, Map<String, UsuarioPersistivel> mapaUsuarios);
+    void avisar(Noticia noticia);
 }
