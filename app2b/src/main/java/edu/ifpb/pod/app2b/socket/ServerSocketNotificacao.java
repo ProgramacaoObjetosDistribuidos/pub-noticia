@@ -34,12 +34,12 @@ import java.util.logging.Logger;
  */
 public class ServerSocketNotificacao implements NovaNoticiaListener, FimConexaoClienteListener {
 
-    private final int PORT = 100;
+    private final int PORT = 1231;
     private List<SendNotification> threads = new LinkedList<>();
 
     public void inicialize() throws IOException {
         ServerSocketChannel channel = ServerSocketChannel.open();
-        channel.bind(new InetSocketAddress(PORT));
+        channel.bind(new InetSocketAddress("localhost",PORT));
         while (true) {
             SendNotification sendNotification = new SendNotification(channel.accept(), this);
             threads.add(sendNotification);
