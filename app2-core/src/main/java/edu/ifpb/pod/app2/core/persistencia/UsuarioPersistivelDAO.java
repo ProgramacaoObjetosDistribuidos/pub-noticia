@@ -10,6 +10,9 @@ import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
  */
 public class UsuarioPersistivelDAO extends DAOJPA<UsuarioPersistivel> implements UsuarioPersistivelDAOIF{
 
+    public UsuarioPersistivelDAO(){
+        this("edu.ifpb.pod_app2b");
+    }
     public UsuarioPersistivelDAO (String unidadePersistencia){
         super(unidadePersistencia);
     }
