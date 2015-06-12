@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class TesteLogin {
     
     public static void main(String[] args) throws Exception {
-        ServidorLogin servidor = new ServidorLogin(new HashMap<String, UsuarioPersistivel>());
+        ServidorLogin servidor = new ServidorLogin();
         servidor.inicialize();
     }
 }

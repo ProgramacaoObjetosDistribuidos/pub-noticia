@@ -5,6 +5,7 @@ import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.DAO;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
 import edu.ifpb.pod.app2b.pojos.LoginResponse;
+import edu.ifpb.pod.app2b.socket.main.RepositorioUsuario;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,12 +27,7 @@ import javax.xml.bind.JAXBException;
 public class ServidorLogin {
 
     private static final int PORT = 1234;
-    private Map<String, UsuarioPersistivel> usuarios;
     private DAO<UsuarioPersistivel> daoUsuario = new UsuarioPersistivelDAO("edu.ifpb.pod_app2b");
-
-    public ServidorLogin(Map<String, UsuarioPersistivel> usuarios) {
-        this.usuarios = usuarios;
-    }
 
     public void inicialize() throws Exception {
         ServerSocket listener = new ServerSocket(PORT);
@@ -69,7 +65,7 @@ public class ServidorLogin {
                                     response.getEmail(), UsuarioPersistivel.class
                             );
                     if (user != null) {
-                        usuarios.put(response.getSession(), user);
+                        RepositorioUsuario.getInstance().addUsuario(response.getSession(), user);
                         response.setSession(System.currentTimeMillis() + response.getEmail());
                         out.println(response.getSession());
                     } else {
