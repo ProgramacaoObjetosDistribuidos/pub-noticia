@@ -15,7 +15,7 @@ public class TesteLoginCliente {
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("localhost", 1234);
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        out.println("TOKEN:douglas.gabriel.18");        
+        out.println("TOKEN:CAAK7CyXZCAhgBAOje85g5m5yefhlAfss00ZBQUPAWarYZA6kAvenyEZCFnQZAWSY6NgE2xdOtkHYVAum8ZCnH9vQ1UbHqG3Mc1aXlDlUwguwsJ49EvJLfWIXVl3FuV07baWZAsjqMDQltVXbh00dAUvt2jAd96OBtGSs5tyegqNik10LGZBYFZBbo0ZCvurP7shsgGungbRayPPSDZA5uDAqLDW");        
         System.out.println(respostaCliente(socket));
     }
 

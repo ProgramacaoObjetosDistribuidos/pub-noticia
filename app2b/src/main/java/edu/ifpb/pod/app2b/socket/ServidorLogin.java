@@ -61,7 +61,7 @@ public class ServidorLogin {
             try {
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                mensagem = respostaCliente();
+                mensagem = in.readLine();
                 if (mensagem.startsWith("TOKEN:")) {
                     response = gerarResposta(mensagem.substring(6));
                     UsuarioPersistivel user
@@ -70,6 +70,7 @@ public class ServidorLogin {
                             );
                     if (user != null) {
                         usuarios.put(response.getSession(), user);
+                        response.setSession(System.currentTimeMillis() + response.getEmail());
                         out.println(response.getSession());
                     } else {
                         response.setError("Usuario nao cadastrado");
@@ -88,39 +89,24 @@ public class ServidorLogin {
                 } catch (Exception ex) {
                 }
             }            
-        }
-
-        private String respostaCliente() throws IOException {
-            //yteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            //yte[] b = new byte[1];
-            //hile (in.read(b) != -1) {
-            //   outputStream.write(b);
-            //
-            return in.readLine();
-        }
+        }       
 
         private LoginResponse gerarResposta(String token) throws MalformedURLException, IOException {
-            URL url = new URL(
-                    "https://graph.facebook.com/me?access_token=" + token
-            );
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            InputStream input = url.openStream();
-            byte[] b = new byte[1];
-            while ((input.read(b)) != 1) {
-                output.write(b);
-            }
-            String[] retorno = new String(output.toByteArray()).split(",");
+            String host = "https://graph.facebook.com/me?access_token=" + token;
+            System.out.println(host);
+            URL url = new URL(host);
+            BufferedReader input =  new BufferedReader(new InputStreamReader(url.openStream()));
+            String[] retorno = input.readLine().split(",");
             LoginResponse response = new LoginResponse();
             for (String prop : retorno) {
                 if (prop.startsWith("\"email\":")) {
-                    prop.replace("\"", "");
-                    response.setEmail(prop.substring(6).replace("\\u0040", "@"));
+                    String email = prop.replace("\"", "").substring(6).replace("\\u0040", "@");
+                    response.setEmail(email);
                 } else if (prop.startsWith("\"name\":")) {
-                    prop.replace("\"", "");
-                    response.setName(prop.substring(5));
+                    String name = prop.replace("\"", "").substring(5);
+                    response.setName(name);
                 }
-            }
-            response.setSession(System.currentTimeMillis() + response.getEmail());
+            }            
             return response;
         }
 
