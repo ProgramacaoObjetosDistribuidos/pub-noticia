@@ -1,5 +1,6 @@
 package edu.ifpb.pod.app2b.socket;
 
+import edu.ifpb.pod.app2.core.configuracao.Configuracoes;
 import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.DAO;
@@ -16,8 +17,6 @@ import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
-import java.util.Map;
-import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -26,7 +25,7 @@ import javax.xml.bind.JAXBException;
  */
 public class ServidorLogin {
 
-    private static final int PORT = 1234;
+    private static final int PORT = Configuracoes.PORTA_APP2B_LOGIN;
     private DAO<UsuarioPersistivel> daoUsuario = new UsuarioPersistivelDAO("edu.ifpb.pod_app2b");
 
     public void inicialize() throws Exception {
@@ -67,7 +66,6 @@ public class ServidorLogin {
                     if (user != null) {
                         RepositorioUsuario.getInstance().addUsuario(response.getSession(), user);
                         response.setSession(System.currentTimeMillis() + response.getEmail());
-                        out.println(response.getSession());
                     } else {
                         response.setError("Usuario nao cadastrado");
                     }
