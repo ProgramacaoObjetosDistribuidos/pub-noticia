@@ -9,6 +9,7 @@ import edu.ifpb.pod.app2.core.configuracao.Configuracoes;
 import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
 import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
 import edu.ifpb.pod.app2.core.listener.NoticiaPersistivelListener;
+import edu.ifpb.pod.app2.core.listener.NovaNoticiaListener;
 import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistiveDAOlIF;
 import edu.ifpb.pod.app2.core.persistencia.NoticiaPersistivelDAO;
 import java.io.BufferedReader;
@@ -28,6 +29,11 @@ import javax.xml.bind.JAXBException;
 public class ServerSocketNoticia {
 
     private final int PORT = Configuracoes.PORTA_APP2B_NOTIFICACAO_NOVA_NOTICIA;
+    private NovaNoticiaListener listener;
+    
+    public ServerSocketNoticia (NovaNoticiaListener listener){
+        this.listener = listener;
+    }
     
     public void inicialize(){
         try{
@@ -79,6 +85,7 @@ public class ServerSocketNoticia {
                NoticiaPersistiveDAOlIF noticiaDAO=new NoticiaPersistivelDAO();
                NoticiaPersistivelListener noticiaPersistivelListener=new NoticiaPersistivelListener();
                System.out.println(noticiaPersistivel.getConteudo());
+               listener.avisar(noticiaPersistivel);
 //               noticiaDAO.salvar(noticiaPersistivel);
 //               //Falta o Map de usuarios
 //               noticiaPersistivelListener.avisar(noticiaPersistivel, null);

@@ -9,6 +9,7 @@ import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
 import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
 import edu.ifpb.pod.app2.core.entidades.Noticias;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
+import edu.ifpb.pod.app2.core.listener.NovaNoticiaListener;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAOIF;
 import edu.ifpb.pod.app2b.socket.main.RepositorioUsuario;
@@ -20,6 +21,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
@@ -28,16 +31,23 @@ import javax.xml.bind.JAXBException;
  *
  * @author emanuel
  */
-public class ServerSocketNotificacao {
+public class ServerSocketNotificacao implements NovaNoticiaListener{
 
     private final int PORT = 100;
+    private List<Thread> threads = new LinkedList<>();
 
     public void inicialize() throws IOException {
         ServerSocketChannel channel = ServerSocketChannel.open();
         channel.bind(new InetSocketAddress(PORT));
         while (true) {
-            new SendNotification(channel.accept()).start();
+            SendNotification sendNotification = new SendNotification(channel.accept());
+            threads.add(sendNotification);
+            sendNotification.start();
         }
+    }
+    
+    public void avisar(NoticiaPersistivel noticia){
+        
     }
 
     private class SendNotification extends Thread {
