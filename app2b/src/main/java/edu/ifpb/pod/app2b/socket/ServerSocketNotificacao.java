@@ -9,6 +9,7 @@ import edu.ifpb.pod.app2.core.conversor.xml.ConversorXML;
 import edu.ifpb.pod.app2.core.entidades.NoticiaPersistivel;
 import edu.ifpb.pod.app2.core.entidades.Noticias;
 import edu.ifpb.pod.app2.core.entidades.UsuarioPersistivel;
+import edu.ifpb.pod.app2.core.listener.FimConexaoClienteListener;
 import edu.ifpb.pod.app2.core.listener.NovaNoticiaListener;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAO;
 import edu.ifpb.pod.app2.core.persistencia.UsuarioPersistivelDAOIF;
@@ -25,29 +26,35 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBException;
 
 /**
  *
  * @author emanuel
+ * @author DouglasGabriel
  */
-public class ServerSocketNotificacao implements NovaNoticiaListener{
+public class ServerSocketNotificacao implements NovaNoticiaListener, FimConexaoClienteListener {
 
     private final int PORT = 100;
-    private List<Thread> threads = new LinkedList<>();
+    private List<SendNotification> threads = new LinkedList<>();
 
     public void inicialize() throws IOException {
         ServerSocketChannel channel = ServerSocketChannel.open();
         channel.bind(new InetSocketAddress(PORT));
         while (true) {
-            SendNotification sendNotification = new SendNotification(channel.accept());
+            SendNotification sendNotification = new SendNotification(channel.accept(), this);
             threads.add(sendNotification);
             sendNotification.start();
         }
     }
+
+    public void avisar(NoticiaPersistivel noticia) {
+        for(SendNotification thread: threads){
+            thread.processamento();
+        }
+    }
     
-    public void avisar(NoticiaPersistivel noticia){
-        
+    public void avisar (Thread thread){
+        threads.remove(thread);
     }
 
     private class SendNotification extends Thread {
@@ -56,10 +63,13 @@ public class ServerSocketNotificacao implements NovaNoticiaListener{
         private SocketChannel channel;
         private BufferedReader in;
         private PrintWriter out;
+        private String id;
+        private FimConexaoClienteListener listener;
 
-        public SendNotification(SocketChannel socketChannel) {
+        public SendNotification(SocketChannel socketChannel, FimConexaoClienteListener listener) {
             this.socket = socketChannel.socket();
             this.channel = socketChannel;
+            this.listener = listener;
         }
 
         @Override
@@ -67,35 +77,44 @@ public class ServerSocketNotificacao implements NovaNoticiaListener{
             try {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
-//                UsuarioPersistivelDAOIF usuarioDAOIF = new UsuarioPersistivelDAO();
-                RepositorioUsuario repositorioUsuario = RepositorioUsuario.getInstance();
-                UsuarioPersistivel usuario = null;
+//                UsuarioPersistivelDAOIF usuarioDAOIF = new UsuarioPersistivelDAO();                
                 String mensagem = in.readLine();
                 if (mensagem.toUpperCase().startsWith("HASNOTIFICATION")) {
-                    String id = mensagem.substring(17);
+                    id = mensagem.substring(17);
                     while (channel.isConnected()) {
-                        usuario = repositorioUsuario.getUsuario(id);
-                        if (usuario != null) {
-                            if (usuario.getNovasNoticias() != null && !usuario.getNovasNoticias().isEmpty()) {
-                                Noticias noticias = new Noticias(usuario.getNovasNoticias());
-                                byte[] noticiaXml = ConversorXML.objetoParaXml(Noticias.class, noticias);
-                                out.println(new String(noticiaXml));
-                            } else {
-                                out.println("NOTNOTIFICATION");
-                            }
-
-                        } else {
-                            out.println("ERRO");
-                        }
-                        Thread.sleep(10000);
+                        processamento();
                     }
-
                 }
-
-            } catch (IOException | JAXBException | InterruptedException ex) {
+            } catch (Exception e) {
                 out.println("ERRO");
+            }finally{
+                try {
+                    channel.close();
+                    listener.avisar(this);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
 
+        }
+
+        public void processamento(){
+            try{
+            UsuarioPersistivel usuario = RepositorioUsuario.getInstance().getUsuario(id);
+            if (usuario != null) {
+                if (usuario.getNovasNoticias() != null && !usuario.getNovasNoticias().isEmpty()) {
+                    Noticias noticias = new Noticias(usuario.getNovasNoticias());
+                    byte[] noticiaXml = ConversorXML.objetoParaXml(Noticias.class, noticias);
+                    out.println(new String(noticiaXml));
+                } else {
+                    out.println("NOTNOTIFICATION");
+                }
+            } else {
+                out.println("ERRO");
+            }
+            }catch(Exception e){
+                out.println("ERRO");
+            }
         }
 
     }
